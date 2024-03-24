@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <!-- Basic -->
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <!-- Mobile Metas -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <!-- Site Metas -->
+  <meta name="keywords" content="" />
+  <meta name="description" content="" />
+  <meta name="author" content="" />
+
+  <title>Ignyt - The Beer Lounge</title>
+  {% load static %}
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}" />
+
+  <!-- Custom styles for this template -->
+  <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+
+  <style>
+    img {
+      border-radius: 15px;
+    }
+  </style>
+</head>
+
+<body>
+
+   <!-- header section strats -->
+   {% include 'header.html' %}
+   <!-- end header section -->
+
+  <!-- Main content -->
+  <div class="container mt-5">
+    <div class="row justify-content-center">
+      <div class="col-md-8">
+        <div class="card">
+          <div class="card-body text-center">
+            <h1 class="card-title">Order Confirmation</h1>
+            <p class="card-text">Your Order has been confirmed.</p>
+            <p class="card-text">Your Order id is {{orderid}} </p>
+         
+            <p class="card-text">Please pay Rs.{{ amount }} and  collect your order from next counter</p>
+
+
+            <p class="card-text">Thank you for choosing Ignyt - The Beer Lounge.</p>
+            <!-- Add more details or customize as needed -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- End Main content -->
+
+
+
+  {% include 'info.html' %}
+
+  <!-- Footer -->
+  <section class="container-fluid footer_section">
+    <p>
+      Copyright &copy; 2024 All Rights Reserved By
+      <a href="#">Loop Legends</a>
+    </p>
+  </section>
+  <!-- End Footer -->
+
+  <!-- Bootstrap core JavaScript -->
+  <script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
+  <script src="{% static 'js/bootstrap.js' %}"></script>
+ 
+
+</body>
+
+</html>

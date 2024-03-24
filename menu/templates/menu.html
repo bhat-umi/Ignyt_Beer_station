@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <!-- Basic -->
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <!-- Mobile Metas -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <!-- Site Metas -->
+  <meta name="keywords" content="" />
+  <meta name="description" content="" />
+  <meta name="author" content="" />
+
+  <title> Ignyt - The Beer Lounge</title>
+  {% load static %}
+
+  <!-- slider stylesheet -->
+  <link rel="stylesheet" type="text/css"
+    href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.1.3/assets/owl.carousel.min.css" />
+
+  <!-- bootstrap core css -->
+  <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.css' %}" />
+
+  <!-- fonts style -->
+  <link href="https://fonts.googleapis.com/css?family=Poppins:400,700&display=swap" rel="stylesheet" />
+  <!-- Custom styles for this template -->
+  <link rel="stylesheet" href="{% static 'css/style.css' %}"  />
+  <!-- responsive style -->
+  <link href="{% static 'css/style.css' %}" rel="stylesheet" />
+  <style >
+   
+
+
+  
+  
+ 
+    #popup-wrapper {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5); /* semi-transparent background */
+        z-index: 1000; /* higher z-index than other content */
+    }
+
+    #popup {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: white;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        text-align: center;
+    }
+
+   
+    .slider_section {
+        width: 100%;
+        
+        overflow-y: hidden;
+        overflow-x: scroll;
+        display: flex;
+        gap: 20px;
+        padding: 0;
+        margin-bottom: 20px;
+        
+    }
+    .card{
+        display: inline;
+        flex: 0 0 auto;
+        text-align: center;
+        border-radius: 25px;
+    }
+   
+   
+  </style>
+</head>
+
+<body>
+  
+    <!-- header section strats -->
+   
+    {% include 'header.html' %}
+    <!-- end header section -->
+    <!-- beers section -->
+   
+<section class="container mt-5">
+    <h2>Beers</h2>
+   <div class="slider_section"  id="beers">
+
+<!-- add will be added using js -->
+ 
+   </div>
+
+  <!-- end beers section -->
+  
+
+
+<!-- appetizers section -->
+
+    <h2>Appetizers</h2>
+   <div class="slider_section" id="appetizers" >
+    
+   </div>
+   
+ 
+  <!-- appetizers section -->
+  
+
+<!-- sandwich section -->
+
+    <h2>Sandwich</h2>
+   <div class="slider_section" id="sandwich" >
+    
+   </div>
+   
+  
+  <!-- sandwich section -->
+
+
+<!-- drinks section -->
+
+<h2>Drinks</h2>
+<div class="slider_section" id="drinks" >
+ 
+</div>
+
+
+<!-- drinks section -->
+
+
+<!-- main course section -->
+
+<h2>Main Course</h2>
+<div class="slider_section" id="maincourse" >
+ 
+</div>
+
+
+<!-- main course section -->
+
+
+
+
+
+
+
+
+
+</section>
+
+</div>
+<a href="{% url 'cart' %}">
+    <div class="cart-icon">
+      
+    My cart
+  </div>
+  </a>
+
+  <div id="popup-wrapper">
+    <div id="popup">
+        <p>Item added to cart!</p>
+       
+    </div>
+   
+</div>
+
+{% include 'info.html' %}
+
+  <!-- footer section -->
+  <section class="container-fluid footer_section">
+    <p>
+      Copyright &copy; 2024 All Rights Reserved By
+      <a href="#">Loop Legends</a>
+    </p>
+  </section>
+  <!-- footer section -->
+
+
+
+<script>
+
+
+    function displayPopup(item) {
+        var popup = document.getElementById("popup-wrapper");
+        popup1=document.getElementById("popup").innerHTML=item +" Added to Cart <br> <button onclick='closePopup()'>Close</button>"
+        popup.style.display = "block";
+    }
+
+    // Function to close the popup
+    function closePopup() {
+        var popup = document.getElementById("popup-wrapper");
+        popup.style.display = "none";
+    }
+
+function getJSONCookie(name) {
+        var nameEQ = name + "=";
+        var ca = document.cookie.split(';');
+        for(var i = 0; i < ca.length; i++) {
+            var c = ca[i];
+            while (c.charAt(0) == ' ') {
+                c = c.substring(1, c.length);
+            }
+            if (c.indexOf(nameEQ) == 0) {
+                var cookieValue = c.substring(nameEQ.length, c.length);
+                return JSON.parse(cookieValue);
+            }
+        }
+        return null;
+}
+
+
+function setJSONCookie(name, value,) {
+    var expires = "";
+    days=30
+    if (days) {
+        var date = new Date();
+        date.setTime(date.getTime() + (30 * 24 * 60 * 60 * 1000));
+        expires = "; expires=" + date.toUTCString();
+    }
+    document.cookie = name + "=" + JSON.stringify(value) + expires + "; path=/";
+}
+    function generateFoodCard(title, items,parent) {
+        let card = document.createElement('div');
+        card.classList.add('card');
+    
+        let cardBody = document.createElement('div');
+        cardBody.classList.add('card-body');
+    
+        let cardTitle = document.createElement('h5');
+        cardTitle.classList.add('card-title');
+        cardTitle.textContent = title;
+        cardBody.appendChild(cardTitle);
+    
+        let listGroup = document.createElement('ul');
+        listGroup.classList.add('list-group');
+    
+        items.forEach(item => {
+            let listItem = document.createElement('li');
+            listItem.classList.add('list-group-item');
+    
+            let itemDiv = document.createElement('div');
+            itemDiv.classList.add('d-flex', 'justify-content-between', 'align-items-center');
+    
+            let itemName = document.createElement('span');
+            itemName.textContent = item.name + ' - Rs. ' + item.price;
+    
+            let addButton = document.createElement('button');
+            addButton.classList.add('btn', 'btn-primary', 'add-to-cart');
+            addButton.textContent = 'Add to cart';
+            addButton.addEventListener("click",()=>{
+                console.log(item.price,item.name)
+                console.log(getJSONCookie("cart"))
+                cartConents=getJSONCookie("cart")
+                if(cartConents==null)
+                    cartConents={items:[]}
+                cartConents.items.push({price:item.price,name:item.name,id: Math.floor(Math.random()*10000000)})
+                displayPopup(item.name)
+                setJSONCookie("cart",cartConents)
+
+                
+
+            })
+    
+            itemDiv.appendChild(itemName);
+            itemDiv.appendChild(addButton);
+            listItem.appendChild(itemDiv);
+            listGroup.appendChild(listItem);
+        });
+    
+        cardBody.appendChild(listGroup);
+        card.appendChild(cardBody);
+    
+        parent.appendChild(card);
+    }
+    
+    
+    
+    
+
+
+const beers_items = [
+    {
+        title: "TOIT - TINT -IN WIT",
+        items: [
+            { name: "Mug(330ml)", price: 270 },
+            { name: "Mug(500ml)", price: 399 }
+        ]
+    },
+    {
+        title: "BUDWEISER PREMIUM",
+        items: [
+            { name: "Mug(330ml)", price: 230 },
+            { name: "Pitcher(1.5L)", price: 1060 },
+            { name: "Tower(3L)", price: 2100 }
+        ]
+    },
+    {
+        title: "BUDWEISER MAGNUM",
+        items: [
+            { name: "Mug(330ml)", price: 245 },
+            { name: "Pitcher(1.5L)", price: 1250 },
+            { name: "Tower(3L)", price: 2500 }
+        ]
+    },
+    {
+        title: "KINGFISHER PREMIUM",
+        items: [
+            { name: "Mug(330ml)", price: 199 },
+            { name: "Pitcher(1.5L)", price: 999 },
+            { name: "Tower(3L)", price: 1900 }
+        ]
+    }
+];
+
+
+
+const appertizers_items = [
+    {
+        title: "MANCHURIAN",
+        items: [
+            { name: "GOBI", price: 189 },
+            { name: "MUSHROOM", price: 209 },
+            { name: "PANEER", price: 249},
+            { name: "CHICKEN", price: 269},
+            
+        ]
+    },
+    {
+        title: "PEPPER DRY",
+        items: [
+            { name: "MUSHROOM", price: 209 },
+            { name: "PANEER", price: 249 },
+            { name: "CHICKEN", price: 269 },
+            { name: "FISH", price: 369}
+        ]
+    },
+    {
+        title: "CHILLI",
+        items: [
+            { name: "MUSHROOM", price: 190 },
+            { name: "PANEER", price: 220 },
+            { name: "CHICKEN", price: 220 },
+            { name: "FISH", price: 369}
+        ]
+    },
+    
+];
+const sandwich_items = [
+    {
+        title: "VEGETARIAN",
+        items: [
+            { name: "GRILL VEG SANDWICH", price: 199 },
+            { name: "PESTO MUSHROOM SANDWICH", price: 220 },
+            { name: "TOMATO MOZZARELLA SANDWICH", price: 190},
+            { name: "SPINACH AND CORN SANDWICH", price: 230}
+        ]
+    },
+    {
+        title: "NON-VEGETARIAN",
+        items: [
+            { name: "GRILLED CHICKEN SANDWICH", price: 299 },
+            { name: "PERI PERI CHICKEN SANDWICH", price: 299 },
+            { name: "PESTO CHICKEN SANDWICH", price: 289 },
+            { name: "EGG SANDWICH", price: 229}
+        ]
+    }];
+
+const main_items = [
+    {
+        title: "VEGETARIAN",
+        items: [
+            { name: "MUSHROOM MASALA", price: 239 },
+            { name: "KADAI VEG", price: 229 },
+            { name: "VEG DEEWANI HANDI", price: 240},
+            { name: "PANEER TIKKA MASALA", price: 250}
+        ]
+    },
+    {
+        title: "NON-VEGETARIAN (BONE)",
+        items: [
+            { name: "CHICKEN DO PYAZA", price: 299 },
+            { name: "LAZEEZ CHICKEN TIKKA MASALA", price: 299 },
+            { name: "CHICKEN KOLHAPURI", price: 300 },
+            { name: "CHICKEN KHEEMA MATAR MASALA", price: 300}
+        ]
+    },
+
+    {
+        title: "NON-VEGETARIAN (BONELESS)",
+        items: [
+            { name: "CHICKEN DO PYAZA", price: 349 },
+            { name: "LAZEEZ CHICKEN TIKKA MASALA", price: 349 },
+            { name: "CHICKEN KHOLAPURI", price: 349 },
+            { name: "CHICKEN KHEEMA MATAR MASALA", price: 349}
+        ]
+    },
+    
+];
+
+const drinks_items = [
+    {
+        title: "MILKSHAKE",
+        items: [
+            { name: "HORLICKS KITKAT", price: 220 },
+            { name: "FERRERO ROCHER", price: 260 },
+            { name: "MANGO OREO", price: 220},
+            { name: "DARK CHOCOLATE", price: 220}
+        ]
+    },
+    {
+        title: "MOCKTAILS",
+        items: [
+            { name: "LAVENDER MOJITO", price: 200 },
+            { name: "RED OXIDE", price: 180 },
+            { name: "MANGO TANGO", price: 200 },
+            { name: "BERRY BLAST", price: 230}
+        ]
+    },
+];
+
+beers=document.getElementById('beers')
+
+beers_items.forEach((item)=>{
+
+//console.log(item.title,item.items)
+generateFoodCard(item.title, item.items,beers);
+
+
+
+})
+
+appetizers=document.getElementById('appetizers')
+appertizers_items.forEach((item)=>{
+
+    //console.log(item.title,item.items)
+    generateFoodCard(item.title, item.items,appetizers);
+    
+    
+    
+    })
+    
+    
+sandwich=document.getElementById('sandwich')
+sandwich_items.forEach((item)=>{
+    generateFoodCard(item.title, item.items,sandwich)
+
+})
+
+drinks=document.getElementById('drinks')
+drinks_items.forEach((item)=>{
+    generateFoodCard(item.title, item.items,drinks)
+
+})
+
+
+maincourse=document.getElementById('maincourse')
+main_items.forEach((item)=>{
+    generateFoodCard(item.title, item.items,maincourse)
+
+})
+
+</script>
+<script type="text/javascript" src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
+  <script type="text/javascript" src="{% static 'js/bootstrap.js' %}"></script>
+</body>
+</html>
